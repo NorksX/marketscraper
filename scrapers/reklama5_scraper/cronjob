@@ -1,0 +1,1 @@
+0 * * * * root python /app/rk5_scraper.py >> /var/log/cron.log 2>&1

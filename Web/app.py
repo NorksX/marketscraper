@@ -94,7 +94,7 @@ def add_security_headers(response):
         f"script-src 'self' 'nonce-{g.nonce}' https://cdnjs.cloudflare.com;"
         f"style-src 'self' 'nonce-{g.nonce}' https://cdnjs.cloudflare.com;"
         f"font-src 'self' https://cdnjs.cloudflare.com; "
-        f"img-src 'self' data: blob: https://flagcdn.com https://*.com https://reklama5.mk https://media.pazar3.mk; "
+        f"img-src 'self' data: blob: https://flagcdn.com https://*.com https://reklama5.mk https://media.pazar3.mk https://forum.it.mk; "
     )
     
     # Other security headers
