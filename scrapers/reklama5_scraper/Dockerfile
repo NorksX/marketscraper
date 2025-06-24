@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY reklama5_scraper/requirements.txt .
+COPY requirements.txt .
 RUN apt-get update && apt-get install -y \
     cron \
     build-essential \
@@ -10,10 +10,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY reklama5_scraper/rk5_scraper.py .
-COPY reklama5_scraper/ad.py .
+COPY rk5_scraper.py .
+COPY ad.py .
 
-COPY reklama5_scraper/cronjob /etc/cron.d/cronjob
+COPY cronjob /etc/cron.d/cronjob
 
 RUN chmod 0644 /etc/cron.d/cronjob && \
     crontab /etc/cron.d/cronjob && \
