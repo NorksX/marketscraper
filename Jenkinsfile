@@ -16,7 +16,7 @@ node {
                 }
             }) {
             def imageName = "borismanev/it_mk_scraper"
-            docker.withRegistry('', 'dockerhub') {
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f scrapers/it_mk_scraper/Dockerfile scrapers/it_mk_scraper")
                 img.push(buildNumber)
                 img.push('latest')
@@ -33,7 +33,7 @@ node {
                 }
             }) {
             def imageName = "borismanev/pazar3_scraper"
-            docker.withRegistry('', 'dockerhub') {
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f scrapers/pazar3_scraper/Dockerfile scrapers/pazar3_scraper")
                 img.push(buildNumber)
                 img.push('latest')
@@ -50,7 +50,7 @@ node {
                 }
             }) {
             def imageName = "borismanev/reklama5_scraper"
-            docker.withRegistry('', 'dockerhub') {
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f scrapers/reklama5_scraper/Dockerfile scrapers/reklama5_scraper")
                 img.push(buildNumber)
                 img.push('latest')
@@ -67,7 +67,7 @@ node {
                 }
             }) {
             def imageName = "borismanev/marketscraper_web"
-            docker.withRegistry('', 'dockerhub') {
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f Web/Dockerfile Web")
                 img.push(buildNumber)
                 img.push('latest')
