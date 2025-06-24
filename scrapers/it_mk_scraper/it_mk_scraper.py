@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup, NavigableString
 import time
 from ad import Ad
 
-#Comment for testing Jenkins CI test 2
+#Comment for testing Jenkins CI test 3
 
 # === COLOR CONSTANTS ===
 RED = '\033[31m'
