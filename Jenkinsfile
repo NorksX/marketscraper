@@ -74,4 +74,18 @@ node {
             }
         }
     }
+
+    stage('Deploy to AWS EC2') {
+        sshagent(['aws-ec2-ssh']) {
+            sh '''
+scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@<EC2_PUBLIC_IP>:/path/to/app/
+scp -o StrictHostKeyChecking=no .env ec2-user@<EC2_PUBLIC_IP>:/path/to/app/
+ssh -o StrictHostKeyChecking=no ec2-user@<EC2_PUBLIC_IP> "
+    cd /path/to/app && \
+    docker-compose pull && \
+    docker-compose up -d
+"
+'''
+        }
+    }
 }
