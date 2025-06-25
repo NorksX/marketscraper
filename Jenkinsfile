@@ -7,7 +7,6 @@ node {
     }
 
     stage('Build & Push it_mk_scraper') {
-        // Only run if files in scrapers/it_mk_scraper/ changed
         if (currentBuild.changeSets.any { changeSet ->
                 changeSet.items.any { item ->
                     item.affectedFiles.any { file ->
@@ -72,6 +71,30 @@ node {
                 img.push(buildNumber)
                 img.push('latest')
             }
+        }
+    }
+
+    stage('Deploy to AWS EC2') {
+        // Only deploy if docker-compose.yml changed
+        if (currentBuild.changeSets.any { changeSet ->
+                changeSet.items.any { item ->
+                    item.affectedFiles.any { file ->
+                        file.path == "docker-compose.yml"
+                    }
+                }
+            }) {
+            sshagent(['aws-ec2-ssh']) {
+                sh '''
+                    scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com:/home/ec2-user/MarketTracker/
+                    ssh -o StrictHostKeyChecking=no ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com '
+                        cd /home/ec2-user/MarketTracker && \
+                        docker compose pull && \
+                        docker compose up -d
+                    '
+                '''
+            }
+        } else {
+            echo "No changes in docker-compose.yml, skipping deployment."
         }
     }
 }
