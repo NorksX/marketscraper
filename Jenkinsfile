@@ -84,8 +84,8 @@ node {
                     scp -o StrictHostKeyChecking=no .env ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com:/home/ec2-user/MarketTracker/
                     ssh -o StrictHostKeyChecking=no ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com '
                         cd /home/ec2-user/MarketTracker && \
-                        docker-compose pull && \
-                        docker-compose up -d
+                        docker compose pull && \
+                        docker compose up -d
                     '
                 '''
             }
