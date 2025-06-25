@@ -1,5 +1,5 @@
 version: '3.8'
-
+#test
 services:
   db:
     image: postgres:13
@@ -20,9 +20,7 @@ services:
       retries: 5
 
   web:
-    build:
-      context: ./Web
-      dockerfile: Dockerfile
+    image: borismanev/marketscraper_web:latest
     ports:
       - "5000:5000"
     env_file:
@@ -32,9 +30,7 @@ services:
         condition: service_healthy
 
   it_mk_scraper:
-    build:
-      context: ./scrapers/it_mk_scraper
-      dockerfile: Dockerfile
+    image: borismanev/it_mk_scraper:latest
     depends_on:
       db:
         condition: service_healthy
@@ -48,9 +44,7 @@ services:
       BATCH_SIZE: 1
 
   pazar3_scraper:
-    build:
-      context: ./scrapers/pazar3_scraper
-      dockerfile: Dockerfile
+    image: borismanev/pazar3_scraper:latest
     depends_on:
       db:
         condition: service_healthy
@@ -64,9 +58,7 @@ services:
       BATCH_SIZE: 3
 
   rk5_scraper:
-    build:
-      context: ./scrapers/reklama5_scraper
-      dockerfile: Dockerfile
+    image: borismanev/reklama5_scraper:latest
     depends_on:
       db:
         condition: service_healthy
