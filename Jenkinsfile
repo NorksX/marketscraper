@@ -80,8 +80,7 @@ node {
             withCredentials([file(credentialsId: '.env_markettracker', variable: 'ENV_FILE')]) {
                 sh '''
                     scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com:/home/ec2-user/MarketTracker/
-                    cp $ENV_FILE .env
-                    scp -o StrictHostKeyChecking=no .env ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com:/home/ec2-user/MarketTracker/
+                    scp -o StrictHostKeyChecking=no $ENV_FILE ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com:/home/ec2-user/MarketTracker/.env
                     ssh -o StrictHostKeyChecking=no ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com '
                         cd /home/ec2-user/MarketTracker && \
                         docker compose pull && \
