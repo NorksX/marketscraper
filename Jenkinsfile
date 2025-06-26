@@ -85,7 +85,7 @@ node {
             }) {
             sshagent(['aws-ec2-ssh']) {
                 sh '''
-                    ssh -o StrictHostKeyChecking=no ec2-user@ec2-51-20-9-234.eu-north-1.compute.amazonaws.com '
+                    ssh -o StrictHostKeyChecking=no ec2-user@16.16.178.165 '
                         cd /home/ec2-user/MarketTracker && \
                         docker compose pull && \
                         docker compose up -d
