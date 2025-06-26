@@ -1,6 +1,7 @@
 node {
     def buildNumber = env.BUILD_NUMBER
     echo "Build Number: ${buildNumber}"
+    def shouldDeploy = false
 
     stage('Checkout') {
         checkout scm
@@ -14,6 +15,7 @@ node {
                     }
                 }
             }) {
+            shouldDeploy = true
             def imageName = "borismanev/it_mk_scraper"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f scrapers/it_mk_scraper/Dockerfile scrapers/it_mk_scraper")
@@ -31,6 +33,7 @@ node {
                     }
                 }
             }) {
+            shouldDeploy = true
             def imageName = "borismanev/pazar3_scraper"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f scrapers/pazar3_scraper/Dockerfile scrapers/pazar3_scraper")
@@ -48,6 +51,7 @@ node {
                     }
                 }
             }) {
+            shouldDeploy = true
             def imageName = "borismanev/reklama5_scraper"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f scrapers/reklama5_scraper/Dockerfile scrapers/reklama5_scraper")
@@ -65,6 +69,7 @@ node {
                     }
                 }
             }) {
+            shouldDeploy = true
             def imageName = "borismanev/marketscraper_web"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 def img = docker.build("${imageName}:${buildNumber}", "-f Web/Dockerfile Web")
@@ -75,14 +80,7 @@ node {
     }
 
     stage('Deploy to AWS EC2') {
-        // Only deploy if docker-compose.yml changed
-        if (currentBuild.changeSets.any { changeSet ->
-                changeSet.items.any { item ->
-                    item.affectedFiles.any { file ->
-                        file.path == "docker-compose.yml"
-                    }
-                }
-            }) {
+        if (shouldDeploy) {
             sshagent(['aws-ec2-ssh']) {
                 sh '''
                     ssh -o StrictHostKeyChecking=no ec2-user@16.16.178.165 '
@@ -93,7 +91,7 @@ node {
                 '''
             }
         } else {
-            echo "No changes in docker-compose.yml, skipping deployment."
+            echo "No new images built, skipping deployment."
         }
     }
 }
