@@ -1,0 +1,40 @@
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    background: var(--accent-color-2);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 85%;
+    padding: 10px;
+    background: var(--gradient-bg-180);
+    color: var(--text-color-white);
+    border-radius: 20px;
+    transition: max-height 0.3s ease, background-color 0.3s ease;
+    box-sizing: border-box;
+    border: solid 1px var(--border-color);
+}
+
+h2 a{
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+h3 a{
+    text-decoration: none;
+    color: var(--text-color);
+}
