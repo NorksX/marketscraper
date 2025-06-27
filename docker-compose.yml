@@ -1,5 +1,5 @@
 version: '3.8'
-#test
+
 services:
   db:
     image: postgres:13
@@ -42,6 +42,10 @@ services:
       START_PAGE: 1
       END_PAGE: 2
       BATCH_SIZE: 1
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.scrape_it_mk.schedule: "20 4 * * *"
+      ofelia.job-exec.scrape_it_mk.command: "/usr/local/bin/python /app/it_mk_scraper.py"
 
   pazar3_scraper:
     image: borismanev/pazar3_scraper:latest
@@ -56,6 +60,10 @@ services:
       START_PAGE: 1
       END_PAGE: 5
       BATCH_SIZE: 3
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.scrape_pazar3.schedule: "25 4 * * *"
+      ofelia.job-exec.scrape_pazar3.command: "/usr/local/bin/python /app/pazar3_scraper.py"
 
   rk5_scraper:
     image: borismanev/reklama5_scraper:latest
@@ -70,6 +78,20 @@ services:
       START_PAGE: 1
       END_PAGE: 5
       BATCH_SIZE: 3
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.scrape_rk5.schedule: "30 4 * * *"
+      ofelia.job-exec.scrape_rk5.command: "/usr/local/bin/python /app/rk5_scraper.py"
+
+  ofelia:
+    image: mcuadros/ofelia:latest
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - it_mk_scraper
+      - pazar3_scraper
+      - rk5_scraper
 
 volumes:
   postgres_data:
