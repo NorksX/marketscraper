@@ -21,10 +21,10 @@ BATCH_SIZE = int(os.getenv('BATCH_SIZE', 3))
 URL = "https://www.pazar3.mk/oglasi/"
 ASYNC_TIMEOUT = 2
 
-DB_HOST = os.getenv('DB_HOST',"localhost")
-DB_USER = os.getenv('DB_USER', "postgres")
-DB_PASSWORD = os.getenv('DB_PASSWORD', 1234)
-DB_NAME = os.getenv('DB_NAME', "ad_db")
+DB_HOST = os.getenv('POSTGRES_HOST', "localhost")
+DB_USER = os.getenv('POSTGRES_USER', "postgres")
+DB_PASSWORD = os.getenv('POSTGRES_PASSWORD', 1234)
+DB_NAME = os.getenv('POSTGRES_DB', "ad_db")
 
 ADMIN_NUMBERS = {"078 377 677", "047 551 166"}
 BASE_URL = "https://www.pazar3.mk"

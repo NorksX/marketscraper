@@ -25,10 +25,10 @@ BASE_URL = "https://forum.it.mk"
 ASYNC_TIMEOUT = 2
 URL_TEMPLATE = "https://forum.it.mk/oglasnik/categories/prodavam.1/?page={page}"
 
-DB_HOST = os.getenv('DB_HOST', "localhost")
-DB_USER = os.getenv('DB_USER', "postgres")
-DB_PASSWORD = os.getenv('DB_PASSWORD', 1234)
-DB_NAME = os.getenv('DB_NAME', "ad_db")
+DB_HOST = os.getenv('POSTGRES_HOST', "localhost")
+DB_USER = os.getenv('POSTGRES_USER', "postgres")
+DB_PASSWORD = os.getenv('POSTGRES_PASSWORD', 1234)
+DB_NAME = os.getenv('POSTGRES_DB', "ad_db")
 
 MONTHS_SHORT = {
     "јануари": "January",
@@ -293,7 +293,7 @@ def insert_ad_to_db(ad_instance):
             password=DB_PASSWORD,
             dbname=DB_NAME
         ) as conn:
-            with conn.cursor() as cursor:
+            with conn.conn.cursor() as cursor:
                 cursor.execute('''
                          INSERT INTO ads.ads (title, description, link, image_url, category, phone, date, price, currency, location, store)
                          VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
