@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, make_response, g, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_mail import Mail
-# For security implementaton 
+# For security implementatonnb
 from flask_wtf.csrf import CSRFProtect, CSRFError, validate_csrf
 from flask_cors import CORS
 from flask_limiter import Limiter

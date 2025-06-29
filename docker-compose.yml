@@ -20,9 +20,7 @@ services:
       retries: 5
 
   web:
-    build:
-      context: ./Web
-      dockerfile: Dockerfile
+    image: borismanev/marketscraper_web:latest
     ports:
       - "5000:5000"
     env_file:
@@ -32,9 +30,7 @@ services:
         condition: service_healthy
 
   it_mk_scraper:
-    build:
-      context: ./scrapers/it_mk_scraper
-      dockerfile: Dockerfile
+    image: borismanev/it_mk_scraper:latest
     depends_on:
       db:
         condition: service_healthy
@@ -52,9 +48,7 @@ services:
       ofelia.job-exec.scrape_it_mk.command: "/usr/local/bin/python /app/it_mk_scraper.py"
 
   pazar3_scraper:
-    build:
-      context: ./scrapers/pazar3_scraper
-      dockerfile: Dockerfile
+    image: borismanev/pazar3_scraper:latest
     depends_on:
       db:
         condition: service_healthy
@@ -72,9 +66,7 @@ services:
       ofelia.job-exec.scrape_pazar3.command: "/usr/local/bin/python /app/pazar3_scraper.py"
 
   rk5_scraper:
-    build:
-      context: ./scrapers/reklama5_scraper
-      dockerfile: Dockerfile
+    image: borismanev/reklama5_scraper:latest
     depends_on:
       db:
         condition: service_healthy

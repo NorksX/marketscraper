@@ -3,18 +3,29 @@ node {
     echo "Build Number: ${buildNumber}"
     def shouldDeploy = false
 
+    // If it is manual (not webhook)
+    def isManual = false
+    for (cause in currentBuild.rawBuild.getCauses()) {
+        if (cause.toString().contains('UserIdCause')) {
+            isManual = true
+        }
+    }
+
     stage('Checkout') {
         checkout scm
     }
 
     stage('Build & Push it_mk_scraper') {
-        if (currentBuild.changeSets.any { changeSet ->
+        if (
+            isManual ||
+            (!isManual && currentBuild.changeSets.any { changeSet ->
                 changeSet.items.any { item ->
                     item.affectedFiles.any { file ->
                         file.path.startsWith("scrapers/it_mk_scraper/")
                     }
                 }
-            }) {
+            })
+        ) {
             shouldDeploy = true
             def imageName = "borismanev/it_mk_scraper"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
@@ -26,13 +37,16 @@ node {
     }
 
     stage('Build & Push pazar3_scraper') {
-        if (currentBuild.changeSets.any { changeSet ->
+        if (
+            isManual ||
+            (!isManual && currentBuild.changeSets.any { changeSet ->
                 changeSet.items.any { item ->
                     item.affectedFiles.any { file ->
                         file.path.startsWith("scrapers/pazar3_scraper/")
                     }
                 }
-            }) {
+            })
+        ) {
             shouldDeploy = true
             def imageName = "borismanev/pazar3_scraper"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
@@ -44,13 +58,16 @@ node {
     }
 
     stage('Build & Push reklama5_scraper') {
-        if (currentBuild.changeSets.any { changeSet ->
+        if (
+            isManual ||
+            (!isManual && currentBuild.changeSets.any { changeSet ->
                 changeSet.items.any { item ->
                     item.affectedFiles.any { file ->
                         file.path.startsWith("scrapers/reklama5_scraper/")
                     }
                 }
-            }) {
+            })
+        ) {
             shouldDeploy = true
             def imageName = "borismanev/reklama5_scraper"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
@@ -62,13 +79,16 @@ node {
     }
 
     stage('Build & Push Web') {
-        if (currentBuild.changeSets.any { changeSet ->
+        if (
+            isManual ||
+            (!isManual && currentBuild.changeSets.any { changeSet ->
                 changeSet.items.any { item ->
                     item.affectedFiles.any { file ->
                         file.path.startsWith("Web/")
                     }
                 }
-            }) {
+            })
+        ) {
             shouldDeploy = true
             def imageName = "borismanev/marketscraper_web"
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
