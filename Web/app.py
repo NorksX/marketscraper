@@ -1,25 +1,21 @@
 # For flask site
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, make_response, g, abort#, send_file, Response # FIXME removed send_file, Response, check if need to return
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user # FIXME removed UserMixin, check if need to re
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, make_response, g, abort
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_mail import Mail
 # For security implementaton 
 from flask_wtf.csrf import CSRFProtect, CSRFError, validate_csrf
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-#from flask_wtf import FlaskForm # FIXME removed, check if need to re-implement
 import secrets
 # For password hashing
-from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired # FIXME removed, check if need to re-implement
+from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from werkzeug.security import generate_password_hash
 # for DB
 from extensions import db
 # Random utils for site
-from email_utils import send_verification_email, send_reset_email, verify_token # for email verification and reset password
-from translation_utils import init_translation_system, translate  # Import translation utilities
-#import requests # FIXME UNUSED, check if need to re-implement
-#from io import BytesIO # FIXME UNUSED, check if need to re-implement
-#import yaml # FIXME UNUSED, check if need to re-implement
+from email_utils import send_verification_email, send_reset_email, verify_token
+from translation_utils import init_translation_system, translate
 from config import Config
 
 # Model imports ( Ads, Users)
