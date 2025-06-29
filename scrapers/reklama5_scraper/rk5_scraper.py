@@ -1,5 +1,5 @@
-# Created by Milos Smiljkovikj
-# Github: https://github.com/milos55
+# Created by Milos Smiljkovikj, Boris Manev
+# Github: https://github.com/milos55, https://github.com/NorksX
 # Date: 08/02/2025
 import os
 
