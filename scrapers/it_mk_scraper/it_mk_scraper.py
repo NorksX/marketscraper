@@ -293,7 +293,7 @@ def insert_ad_to_db(ad_instance):
             password=DB_PASSWORD,
             dbname=DB_NAME
         ) as conn:
-            with conn.conn.cursor() as cursor:
+            with conn.cursor() as cursor:
                 cursor.execute('''
                          INSERT INTO ads.ads (title, description, link, image_url, category, phone, date, price, currency, location, store)
                          VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
