@@ -61,6 +61,7 @@ async def fetch_page(session, URL, retries=3, delay=2):
         "Upgrade-Insecure-Requests": "1",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
         "Connection": "keep-alive",
+        "Accept-Language": "en-US,en-GB,en;q=0.9",
         "Sec-Fetch-Dest": "document",
         "Sec-Fetch-Mode": "navigate",
         "Sec-Fetch-Site": "same-origin",
@@ -99,6 +100,10 @@ def parse_date(date_str):
     if "Денес" in date_str:
         today_str = datetime.now(tz).strftime("%d.%m.%Y")
         date_str = date_str.replace("Денес", today_str)
+
+    if "Today" in date_str:
+        today_str = datetime.now(tz).strftime("%d.%m.%Y")
+        date_str = date_str.replace("Today", today_str)
 
     # Try full datetime
     try:

@@ -44,6 +44,7 @@ services:
       ofelia.job-run.scrape_it_mk.network: "marketscraper_default"
       ofelia.job-run.scrape_it_mk.overlapping: "false"
       ofelia.job-run.scrape_it_mk.max_running: "1"
+      ofelia.job-run.scrape_it_mk.remove: "true"
       ofelia.job-run.scrape_it_mk.environment: >-
         ["POSTGRES_HOST=db",
          "POSTGRES_DB=${POSTGRES_DB}",
@@ -60,6 +61,7 @@ services:
       ofelia.job-run.scrape_pazar3.network: "marketscraper_default"
       ofelia.job-run.scrape_pazar3.overlapping: "false"
       ofelia.job-run.scrape_pazar3.max_running: "1"
+      ofelia.job-run.scrap_pazar3.remove: "true"
       ofelia.job-run.scrape_pazar3.environment: >-
         ["POSTGRES_HOST=db",
          "POSTGRES_DB=${POSTGRES_DB}",
@@ -76,6 +78,7 @@ services:
       ofelia.job-run.scrape_rk5.network: "marketscraper_default"
       ofelia.job-run.scrape_rk5.overlapping: "false"
       ofelia.job-run.scrape_rk5.max_running: "1"
+      ofelia.job-run.scrape_rk5.remove: "true"
       ofelia.job-run.scrape_rk5.environment: >-
         ["POSTGRES_HOST=db",
          "POSTGRES_DB=${POSTGRES_DB}",
