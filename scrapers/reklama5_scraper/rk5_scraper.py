@@ -2,6 +2,7 @@
 # Github: https://github.com/milos55, https://github.com/NorksX
 # Date: 08/02/2025
 import os
+from zoneinfo import ZoneInfo
 
 import aiohttp
 import asyncio
@@ -49,11 +50,21 @@ ADMIN_NUMBERS = []  # List of admin numbers to be used for notifications or chec
 
 async def fetch_page(session, URL, retries=3, delay=2):
     headers = {
-        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/125.0.0.0 Safari/537.36"
+        ),
         "Accept-Language": "en-US,en;q=0.9",
-        "Referer": "https://www.google.com/",
+        "Referer": "https://www.reklama5.mk",
         "DNT": "1",
         "Upgrade-Insecure-Requests": "1",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Connection": "keep-alive",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-User": "?1",
     }
 
     for attempt in range(retries):
@@ -75,22 +86,37 @@ async def fetch_page(session, URL, retries=3, delay=2):
 
 
 def parse_date(date_str):
-    if date_str.startswith("Денес"):
-        today = datetime.now().strftime("%d.%m.%Y")
-        date_str = date_str.replace("Денес", today)
-    if not date_str or date_str == "N/A":
+    if not date_str or date_str.strip() == "N/A":
         return None
+
+    # Ensure UTF-8 handling if input is bytes
+    if isinstance(date_str, bytes):
+        date_str = date_str.decode("utf-8")
+
+    tz = ZoneInfo("Europe/Skopje")
+
+    # Replace "Денес" with today's date in Skopje timezone
+    if "Денес" in date_str:
+        today_str = datetime.now(tz).strftime("%d.%m.%Y")
+        date_str = date_str.replace("Денес", today_str)
+
+    # Try full datetime
     try:
-        return datetime.strptime(date_str, "%d.%m.%Y %H:%M")
+        dt = datetime.strptime(date_str, "%d.%m.%Y %H:%M")
+        return dt.replace(tzinfo=tz)
     except ValueError:
-        try:
-            return datetime.strptime(date_str, "%d.%m.%Y")
-        except ValueError:
-            return None
+        pass
+
+    # Try date only
+    try:
+        dt = datetime.strptime(date_str, "%d.%m.%Y")
+        return dt.replace(tzinfo=tz)
+    except ValueError:
+        return None
 
 
 def normalize_phone_number(
-        phone):  # FIXME for retards that have phones like this 078 427 757 078 404 406, aboslute idiots
+        phone):
     phone = phone.strip().replace(' ', '')  #
 
     # Collapse multiple leading pluses to one
@@ -224,6 +250,9 @@ async def fetch_ads(URL, START_PAGE, END_PAGE, BATCH_SIZE):
                         print("=" * 80)
                         print(ad.to_tuple())
                         print("=" * 30)
+                        if not ad.date:
+                            print(
+                                f"{RED}[DEBUG] Missing parsed date! Raw input: {date_element[2].find('span').text.strip()}{RESET}")
                         insert_ad_to_db(ad)
 
 

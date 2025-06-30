@@ -1566,7 +1566,7 @@ transliterate(text) {
                             <div class="ad-location">Град: ${ad.adlocation}</div>
                         </div>
                         ${this.getImageHTML(ad.adimage)}
-                        <div class="ad-category">${ad.adcategory}</div>
+                        <div class="ad-category">${ad?.adcategory ?? 'Нема категорија (WIP)'}</div>
                     </div>
                 </a>
             `;

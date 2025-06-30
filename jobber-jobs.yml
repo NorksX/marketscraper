@@ -1,0 +1,48 @@
+jobs:
+  scrape_it_mk:
+    schedule: * 2 * * *"
+    command: >
+      docker run --rm
+      --network markettracker_default
+      -e POSTGRES_HOST=${POSTGRES_HOST}
+      -e POSTGRES_DB=${POSTGRES_DB}
+      -e POSTGRES_USER=${POSTGRES_USER}
+      -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      -e START_PAGE=1
+      -e END_PAGE=2
+      -e BATCH_SIZE=1
+      borismanev/it_mk_scraper:latest
+      /usr/local/bin/python /app/it_mk_scraper.py
+    overlapping: false
+
+  scrape_pazar3:
+    schedule: "*/3 * * * *"
+    command: >
+      docker run --rm
+      --network markettracker_default
+      -e POSTGRES_HOST=${POSTGRES_HOST}
+      -e POSTGRES_DB=${POSTGRES_DB}
+      -e POSTGRES_USER=${POSTGRES_USER}
+      -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      -e START_PAGE=1
+      -e END_PAGE=5
+      -e BATCH_SIZE=3
+      borismanev/pazar3_scraper:latest
+      /usr/local/bin/python /app/pazar3_scraper.py
+    overlapping: false
+
+  scrape_rk5:
+    schedule: "30 4 * * *"
+    command: >
+      docker run --rm
+      --network markettracker_default
+      -e POSTGRES_HOST=${POSTGRES_HOST}
+      -e POSTGRES_DB=${POSTGRES_DB}
+      -e POSTGRES_USER=${POSTGRES_USER}
+      -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      -e START_PAGE=1
+      -e END_PAGE=5
+      -e BATCH_SIZE=3
+      borismanev/reklama5_scraper:latest
+      /usr/local/bin/python /app/rk5_scraper.py
+    overlapping: false
