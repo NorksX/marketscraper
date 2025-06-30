@@ -1588,7 +1588,7 @@ transliterate(text) {
                             </div>
                                 <div class="ad-location">Град: ${ad.adlocation}</div>
                                 <div class="ad-phone">Тел: ${/* this.formatPhone */ad.adphone}</div>
-                                <div class="ad-category">${ad.adcategory}</div>
+                                <div class="ad-category">${ad?.adcategory ?? 'Нема категорија (WIP)'}</div>
                         </div>
 
                         <!-- MIDDLE COLUMN -->

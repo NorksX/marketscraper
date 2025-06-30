@@ -37,7 +37,6 @@ services:
     depends_on:
       - db
     labels:
-      # IT MK Scraper job-run at 2:22 AM
       ofelia.job-run.scrape_it_mk.schedule: "0 32 2 * * *"
       ofelia.job-run.scrape_it_mk.image: "borismanev/it_mk_scraper:latest"
       ofelia.job-run.scrape_it_mk.command: "/usr/local/bin/python /app/it_mk_scraper.py"
@@ -54,7 +53,6 @@ services:
          "END_PAGE=2",
          "BATCH_SIZE=1"]
 
-      # Pazar3 Scraper job-run at 2:25 AM
       ofelia.job-run.scrape_pazar3.schedule: "0 25 2 * * *"
       ofelia.job-run.scrape_pazar3.image: "borismanev/pazar3_scraper:latest"
       ofelia.job-run.scrape_pazar3.command: "/usr/local/bin/python /app/pazar3_scraper.py"
@@ -71,7 +69,6 @@ services:
          "END_PAGE=5",
          "BATCH_SIZE=3"]
 
-      # Reklama5 Scraper job-run at 2:28 AM
       ofelia.job-run.scrape_rk5.schedule: "0 28 2 * * *"
       ofelia.job-run.scrape_rk5.image: "borismanev/reklama5_scraper:latest"
       ofelia.job-run.scrape_rk5.command: "/usr/local/bin/python /app/rk5_scraper.py"
