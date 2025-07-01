@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rk5-scraper
+  namespace: marketscraper
+spec:
+  schedule: "55 23 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: rk5-scraper
+              image: borismanev/reklama5_scraper:latest
+              envFrom:
+                - configMapRef:
+                    name: marketscraper-config
+                - secretRef:
+                    name: marketscraper-secret
+              env:
+                - name: START_PAGE
+                  value: "1"
+                - name: END_PAGE
+                  value: "5"
+                - name: BATCH_SIZE
+                  value: "3"

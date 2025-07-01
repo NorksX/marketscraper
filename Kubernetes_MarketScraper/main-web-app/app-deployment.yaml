@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketscraper-web
+  namespace: marketscraper
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: marketscraper-web
+  template:
+    metadata:
+      labels:
+        app: marketscraper-web
+    spec:
+      containers:
+        - name: web
+          image: borismanev/marketscraper_web:latest
+          ports:
+            - containerPort: 5000
+          envFrom: 
+            - configMapRef:
+                name: marketscraper-config
+            - secretRef:
+                name: marketscraper-secret
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 5    

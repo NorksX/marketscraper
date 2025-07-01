@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pazar3-scraper
+  namespace: marketscraper
+spec:
+  schedule: "57 23 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: pazar3-scraper
+              image: borismanev/pazar3_scraper:latest
+              envFrom:
+                - configMapRef:
+                    name: marketscraper-config
+                - secretRef:
+                    name: marketscraper-secret
+              env:
+                - name: START_PAGE
+                  value: "1"
+                - name: END_PAGE
+                  value: "5"
+                - name: BATCH_SIZE
+                  value: "3"
